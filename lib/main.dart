@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:kuslide/chage_info/chage_info_screen.dart';
+import 'package:kuslide/Page/1_basic_signup_page/1_basic_singup_screen.dart';
+import 'package:kuslide/coreService/provider.dart';
+import 'package:kuslide/coreService/routes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: ChangeInfo(),
-      ),
-    );
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: appRoutes,
+        home: const BasicSingupPage());
   }
 }
