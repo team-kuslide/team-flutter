@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class StudentPasswordCheck extends StatefulWidget {
-  const StudentPasswordCheck({super.key});
+  final TextEditingController controller;
+
+  const StudentPasswordCheck({super.key, required this.controller});
 
   @override
   State<StudentPasswordCheck> createState() => _StudentPasswordCheckState();
 }
 
 class _StudentPasswordCheckState extends State<StudentPasswordCheck> {
-  final TextEditingController _passwordController = TextEditingController();
+  // final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
 
   @override
@@ -20,7 +22,7 @@ class _StudentPasswordCheckState extends State<StudentPasswordCheck> {
           height: 50,
           child: TextFormField(
             focusNode: _passwordFocusNode,
-            controller: _passwordController,
+            controller: /*_passwordController*/ widget.controller,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(

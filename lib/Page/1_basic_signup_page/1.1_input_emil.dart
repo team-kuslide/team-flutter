@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class StudentEmailCheck extends StatefulWidget {
-  const StudentEmailCheck({super.key});
+  final TextEditingController controller;
+
+  const StudentEmailCheck({super.key, required this.controller});
 
   @override
   State<StudentEmailCheck> createState() => _StudentEmailCheckState();
 }
 
 class _StudentEmailCheckState extends State<StudentEmailCheck> {
-  final TextEditingController _emailController = TextEditingController();
+  // final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
 
   final bool _isEmailStateIcon = false;
@@ -21,9 +23,9 @@ class _StudentEmailCheckState extends State<StudentEmailCheck> {
     if (email.contains('@') && _isfirst && !email.endsWith("kku.ac.kr")) {
       String newEmail = "${email}kku.ac.kr";
       _isfirst = false;
-      if (_emailController.text != newEmail) {
-        _emailController.text = newEmail;
-        _emailController.selection = TextSelection.fromPosition(
+      if (/*_emailController*/ widget.controller.text != newEmail) {
+        widget.controller.text = newEmail;
+        widget.controller.selection = TextSelection.fromPosition(
           TextPosition(offset: newEmail.length),
         );
       }
@@ -32,8 +34,8 @@ class _StudentEmailCheckState extends State<StudentEmailCheck> {
     } else if (domainIndex != -1) {
       String adjustedEmail =
           email.substring(0, domainIndex + "@kku.ac.kr".length);
-      _emailController.text = adjustedEmail;
-      _emailController.selection = TextSelection.fromPosition(
+      widget.controller.text = adjustedEmail;
+      widget.controller.selection = TextSelection.fromPosition(
         TextPosition(offset: adjustedEmail.length),
       );
     }
@@ -48,7 +50,7 @@ class _StudentEmailCheckState extends State<StudentEmailCheck> {
           height: 50,
           child: TextFormField(
             focusNode: _emailFocusNode,
-            controller: _emailController,
+            controller: widget.controller,
             enabled: !_isEmailStateIcon,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
