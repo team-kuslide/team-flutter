@@ -7,8 +7,6 @@ import 'package:kuslide/my_info/my_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  MyApiService().getUserInfo();
-
   runApp(
     MultiProvider(
       providers: [
@@ -27,6 +25,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: appRoutes,
-        home: const MyScreen());
+        home: const BasicSingupPage());
   }
 }

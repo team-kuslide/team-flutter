@@ -13,8 +13,7 @@ Future<bool> submitForm(String joinemail, String joinpassword) async {
   };
 
   try {
-    const url =
-        'http://kuslide-env.eba-w4k3vejk.ap-northeast-2.elasticbeanstalk.com/account/login';
+    const url = 'htt.comnt/lin';
 
     Response response = await dio.post(url, data: data);
 
