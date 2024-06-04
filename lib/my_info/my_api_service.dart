@@ -4,7 +4,7 @@ import 'package:kuslide/my_info/api_model.dart';
 Future<List<MyPageResponse>?> fetchMyPageData() async {
   Dio dio = Dio();
 
-  String session = "MDAyNTExYjUtMjRjZi00MDFkLWFmMmYtOGUwZGRiNTk3NzFj";
+  String session = "Y2QxMGE3ODEtYzU3Ni00ZTI1LWJhY2QtMTVhZmQzNmE0ZWZh";
   // 헤더에 세션 정보 추가
   dio.options.headers["Cookie"] = "SESSION=$session";
   try {

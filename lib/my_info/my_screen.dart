@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kuslide/Page/1_basic_signup_page/1_basic_singup_screen.dart';
 import 'package:kuslide/my_info/content_button.dart';
 import 'package:kuslide/detail_my_screen/my_writing.dart';
 import 'package:kuslide/my_info/logout.dart';
-import 'package:kuslide/my_info/my_api_service.dart';
 
 class MyScreen extends StatefulWidget {
   const MyScreen({super.key});

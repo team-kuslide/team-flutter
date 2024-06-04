@@ -33,11 +33,17 @@ class _MyPageDataWidgetState extends State<MyPageDataWidget> {
         future: futureMyPageData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('내가 작성한 글이 없습니다.'));
+            return const Center(
+              child: Text('내가 작성한 글이 없습니다.'),
+            );
           } else {
             List<MyPageResponse> myPageData = snapshot.data!;
 
@@ -73,7 +79,8 @@ class _MyPageDataWidgetState extends State<MyPageDataWidget> {
                                   Icons.menu_rounded,
                                   color: Colors.white,
                                 ),
-                                items: <String>['삭제', '하트'].map((String value) {
+                                items: <String>['삭제', '하트 ${item.heart}']
+                                    .map((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
