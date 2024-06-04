@@ -1,46 +1,36 @@
-// // import 'package:http/http.dart' as http;
-// // import 'package:kuslide/my_info/api_model.dart';
-// // import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:kuslide/my_info/api_model.dart';
 
-// // class MyApiService {
-// //   static String baseUrl =
-// //       "hm";
-// //   static String myPage = "account/mypage";
+Future<List<MyPageResponse>?> fetchMyPageData() async {
+  Dio dio = Dio();
 
-// //   Future<void> getUserInfo() async {
-// //     final url = Uri.parse('$baseUrl/$myPage');
-// //     final response = await http.get(url, headers: {
-// //       'SESSION': 'Y'
-// //     });
+  String session = "MDAyNTExYjUtMjRjZi00MDFkLWFmMmYtOGUwZGRiNTk3NzFj";
+  // 헤더에 세션 정보 추가
+  dio.options.headers["Cookie"] = "SESSION=$session";
+  try {
+    const url =
+        'http://kuslide-env.eba-w4k3vejk.ap-northeast-2.elasticbeanstalk.com/account/mypage'; // 실제 URL로 변경
+    Response response = await dio.get(url);
 
-// //     if (response.statusCode == 200) {
-// //       print(response.body);
-// //     }
-// //   }
-// // }
-// import 'package:http/http.dart' as http;
-// import 'package:kuslide/my_info/api_model.dart';
-// import 'dart:convert';
+    if (response.statusCode == 200) {
+      print("성공");
+      print(response.data);
 
-// class MyApiService {
-//   final String baseUrl =
-//       "hcom";
-//   final String myPage = "account/mypage";
+      List<MyPageResponse> myInstances = (response.data as List)
+          .map((json) => MyPageResponse.fromJson(json))
+          .toList();
 
-//   void getUserInfo() async {
-//     final url = Uri.parse("$baseUrl/$myPage");
-//     final response = await http.get(url, headers: {
-//       'SESSION': 'O1',
-//       'Content-Type': 'application/json',
-//       'Accept': 'application/json',
-//       'User-Agent': 'PostmanRuntime/7.39.0'
-//     });
-
-//     if (response.statusCode == 200) {
-//       print(response.body);
-//       return;
-//     } else {
-//       print('Failed to load user info: ${response.statusCode}');
-//     }
-//   }
-// }
+      return myInstances;
+    } else {
+      print("Failed with status code: ${response.statusCode}");
+      return null;
+    }
+  } catch (e) {
+    if (e is DioError) {
+      print('DioError: ${e.response?.statusCode}');
+    } else {
+      print('Unknown error: $e');
+    }
+    return null;
+  }
+}

@@ -13,7 +13,8 @@ Future<bool> submitForm(String joinemail, String joinpassword) async {
   };
 
   try {
-    const url = 'htt.comnt/lin';
+    const url =
+        'http://kuslide-env.eba-w4k3vejk.ap-northeast-2.elasticbeanstalk.com/account/login';
 
     Response response = await dio.post(url, data: data);
 
@@ -28,7 +29,7 @@ Future<bool> submitForm(String joinemail, String joinpassword) async {
     // 쿠키 출력
     // List<String>? cookies = response.headers['set-cookie'];
     // print("Cookies: $cookies");
-    print(response.headers);
+    print(response);
     if (response.statusCode == 200) {
       print("성공");
       return true;
@@ -39,9 +40,6 @@ Future<bool> submitForm(String joinemail, String joinpassword) async {
   } catch (e) {
     if (e is DioError) {
       print('DioError: ${e.response?.statusCode}');
-      List<String>? cookies = e.response?.headers['set-cookie'];
-      print("Cookies in error: $cookies");
-      print(e.response?.statusCode);
     } else {
       print('Unknown error: $e');
     }

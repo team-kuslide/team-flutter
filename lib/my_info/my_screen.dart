@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kuslide/Page/1_basic_signup_page/1_basic_singup_screen.dart';
 import 'package:kuslide/my_info/content_button.dart';
 import 'package:kuslide/detail_my_screen/my_writing.dart';
+import 'package:kuslide/my_info/logout.dart';
+import 'package:kuslide/my_info/my_api_service.dart';
 
 class MyScreen extends StatefulWidget {
   const MyScreen({super.key});
@@ -11,6 +14,7 @@ class MyScreen extends StatefulWidget {
 }
 
 class _MyScreenState extends State<MyScreen> {
+  @override
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -81,20 +85,26 @@ class _MyScreenState extends State<MyScreen> {
                     child: Column(
                       children: [
                         const ContentButton(
+                          //content_button.dart에 상세정보 있음
                           contentIcon: Icons.edit_document,
                           content: "내가 쓴 글 보기",
                           contentSize: 27,
+                          detailWidget: MyPageDataWidget(),
                         ),
                         SizedBox(height: screenHeight * 0.01),
                         const ContentButton(
-                            contentIcon: Icons.logout_outlined,
-                            content: "로그아웃",
-                            contentSize: 30),
+                          contentIcon: Icons.logout_outlined,
+                          content: "로그아웃",
+                          contentSize: 30,
+                          detailWidget: LogoutScreen(),
+                        ),
                         SizedBox(height: screenHeight * 0.01),
                         const ContentButton(
-                            contentIcon: Icons.delete_forever_rounded,
-                            content: "회원탈퇴",
-                            contentSize: 30),
+                          contentIcon: Icons.delete_forever_rounded,
+                          content: "회원탈퇴",
+                          contentSize: 30,
+                          detailWidget: MyPageDataWidget(),
+                        ),
                       ],
                     ),
                   ),

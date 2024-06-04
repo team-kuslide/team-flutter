@@ -1,14 +1,24 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kuslide/my_info/api_model.dart';
+import 'package:kuslide/my_info/my_api_service.dart'; // fetchMyPageData 함수가 있는 파일
 
-class MyWriting extends StatefulWidget {
-  const MyWriting({super.key});
+class MyPageDataWidget extends StatefulWidget {
+  const MyPageDataWidget({super.key});
 
   @override
-  State<MyWriting> createState() => _MyWritingState();
+  State<MyPageDataWidget> createState() => _MyPageDataWidgetState();
 }
 
-class _MyWritingState extends State<MyWriting> {
+class _MyPageDataWidgetState extends State<MyPageDataWidget> {
+  late Future<List<MyPageResponse>?> futureMyPageData;
+  late String userId; // 유저아이디 받아오기
+
+  @override
+  void initState() {
+    super.initState();
+    futureMyPageData = fetchMyPageData(); //my_api_service.dart에서 데이터 받아오기
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -19,63 +29,82 @@ class _MyWritingState extends State<MyWriting> {
         centerTitle: true,
         title: const Text("내가 쓴 글"),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 0.75, // 이 비율을 통해 각 항목의 높이를 조절합니다.
-        ),
-        itemCount: 30,
-        itemBuilder: (context, index) => SizedBox(
-          width: itemSize,
-          child: Column(
-            children: [
-              SizedBox(
-                width: itemSize,
-                height: itemSize,
-                child: Stack(
-                  children: [
-                    Image.network(
-                      'https://via.placeholder.com/150', // 이미지 가져오기
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                    Positioned(
-                      right: 6,
-                      top: -5,
-                      child: DropdownButton<String>(
-                        icon: const Icon(
-                          size: 30,
-                          Icons.menu_rounded,
-                          color: Colors.white,
+      body: FutureBuilder<List<MyPageResponse>?>(
+        future: futureMyPageData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('내가 작성한 글이 없습니다.'));
+          } else {
+            List<MyPageResponse> myPageData = snapshot.data!;
+
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: myPageData.length,
+              itemBuilder: (context, index) {
+                MyPageResponse item = myPageData[index];
+                return SizedBox(
+                  width: itemSize,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: itemSize,
+                        height: itemSize,
+                        child: Stack(
+                          children: [
+                            Image.network(
+                              item.image, // API에서 가져온 이미지
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              right: 6,
+                              top: -5,
+                              child: DropdownButton<String>(
+                                icon: const Icon(
+                                  size: 30,
+                                  Icons.menu_rounded,
+                                  color: Colors.white,
+                                ),
+                                items: <String>['삭제', '하트'].map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  // Do something with the selected option
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                        items: <String>['삭제', '하트'].map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          // Do something with the selected option
-                        },
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: itemSize,
-                color: Colors.black.withOpacity(0.5),
-                padding: const EdgeInsets.all(5),
-                child: const Text(
-                  '얼마나짧은글이써지는지확인중', //작성한 글 가져오기
-                  style: TextStyle(color: Colors.white),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
+                      Container(
+                        width: itemSize,
+                        color: Colors.black.withOpacity(0.5),
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          item.content, // API에서 가져온 작성한 글
+                          style: const TextStyle(color: Colors.white),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

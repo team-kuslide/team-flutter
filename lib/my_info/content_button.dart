@@ -3,16 +3,17 @@ import 'package:kuslide/detail_my_screen/my_writing.dart';
 import 'package:kuslide/my_info/my_api_service.dart';
 
 class ContentButton extends StatelessWidget {
-  const ContentButton({
-    super.key,
-    required this.contentIcon,
-    required this.content,
-    required this.contentSize,
-  });
+  const ContentButton(
+      {super.key,
+      required this.contentIcon,
+      required this.content,
+      required this.contentSize,
+      required this.detailWidget});
 
   final IconData contentIcon;
   final String content;
   final double contentSize;
+  final Widget detailWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class ContentButton extends StatelessWidget {
               );
             },
             pageBuilder: (context, anmation, secondaryAnimation) =>
-                const MyWriting(),
+                detailWidget,
           ),
         );
       },

@@ -25,6 +25,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: appRoutes,
-        home: const BasicSingupPage());
+        home: const MyScreen());
   }
 }
