@@ -72,7 +72,7 @@ class _MyWidgetState extends State<BasicSingupPage> {
                     const SizedBox(width: 5),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/MainScreen');
+                        Navigator.pushNamed(context, '/MainScreenPage');
                       },
                       child: RichText(
                         text: TextSpan(
