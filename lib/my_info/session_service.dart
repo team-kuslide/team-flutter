@@ -13,7 +13,7 @@ class SessionService {
       print(cookie);
       try {
         await _dio.get(
-          'http://kuslide-env.eba-w4k3vejk.ap-northeast-2.elasticbeanstalk.com/account/logout', // 실제 로그아웃 엔드포인트로 변경
+          'out', // 실제 로그아웃 엔드포인트로 변경
           options: Options(
             headers: {'Cookie': cookie},
           ),
@@ -36,7 +36,7 @@ class SessionService {
     if (cookie != null) {
       try {
         await _dio.delete(
-          'http://your-server-url/delete-account', // 실제 회원탈퇴 엔드포인트로 변경
+          'h', // 실제 회원탈퇴 엔드포인트로 변경
           options: Options(
             headers: {'Cookie': cookie},
           ),
