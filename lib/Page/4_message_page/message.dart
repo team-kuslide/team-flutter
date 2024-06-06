@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class messagePage extends StatefulWidget {
   const messagePage({super.key});
-  
+
   @override
   State<messagePage> createState() => _messagePageState();
 }
@@ -31,13 +31,15 @@ class Message {
 }
 
 class UserListScreen extends StatelessWidget {
-  final List<String> users = ["유저1", "유저2", "유저3"]; // 유저 목록
+  final List<String> users = ["유저1", "유저2", "유저3"];
+
+  UserListScreen({super.key}); // 유저 목록
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('쪽지'),
+        title: const Text('쪽지'),
       ),
       body: ListView.builder(
         itemCount: users.length,
@@ -62,7 +64,7 @@ class UserListScreen extends StatelessWidget {
 class ChatScreen extends StatefulWidget {
   final String user;
 
-  ChatScreen({required this.user});
+  const ChatScreen({super.key, required this.user});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -70,8 +72,8 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final List<Message> _messages = [];
-  TextEditingController _textController = TextEditingController();
-  String _currentNickname = "닉네임";
+  final TextEditingController _textController = TextEditingController();
+  final String _currentNickname = "닉네임";
 
   @override
   void initState() {
@@ -113,20 +115,20 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildTextComposer() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         children: <Widget>[
           Flexible(
             child: TextField(
               controller: _textController,
               onSubmitted: _handleSubmitted,
-              decoration: InputDecoration.collapsed(
+              decoration: const InputDecoration.collapsed(
                 hintText: "쪽지 보내기",
               ),
             ),
           ),
           IconButton(
-            icon: Icon(Icons.send),
+            icon: const Icon(Icons.send),
             onPressed: () => _handleSubmitted(_textController.text),
           ),
         ],
@@ -144,7 +146,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           Flexible(
             child: ListView.builder(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               reverse: true,
               itemCount: _messages.length,
               itemBuilder: (_, int index) {
@@ -152,7 +154,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          Divider(height: 1.0),
+          const Divider(height: 1.0),
           _buildTextComposer(),
         ],
       ),
@@ -162,8 +164,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildMessage(Message message) {
     final bool isMe = message.nickname == _currentNickname;
     final Container messageBox = Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: isMe ? Colors.white : Colors.blue[100],
         borderRadius: BorderRadius.circular(10.0),
@@ -172,7 +174,7 @@ class _ChatScreenState extends State<ChatScreen> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
@@ -187,15 +189,15 @@ class _ChatScreenState extends State<ChatScreen> {
               color: isMe ? const Color.fromARGB(255, 0, 0, 0) : Colors.black,
             ),
           ),
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
           Text(
             message.text,
-            style: TextStyle(fontSize: 16.0),
+            style: const TextStyle(fontSize: 16.0),
           ),
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
           Text(
             DateFormat('HH:mm').format(message.timestamp),
-            style: TextStyle(color: Colors.grey, fontSize: 12.0),
+            style: const TextStyle(color: Colors.grey, fontSize: 12.0),
           ),
         ],
       ),
